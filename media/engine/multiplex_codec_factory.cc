@@ -44,7 +44,10 @@ MultiplexEncoderFactory::MultiplexEncoderFactory(
 std::vector<SdpVideoFormat> MultiplexEncoderFactory::GetSupportedFormats()
     const {
   std::vector<SdpVideoFormat> formats = factory_->GetSupportedFormats();
-  for (const auto& format : formats) {
+  // Iterate over the current elements and append at the end.
+  auto orig_formats_num = formats.size();
+  for (unsigned i = 0; i < orig_formats_num; ++i) {
+    const auto& format = formats[i];
     if (absl::EqualsIgnoreCase(format.name, kMultiplexAssociatedCodecName)) {
       SdpVideoFormat multiplex_format = format;
       multiplex_format.parameters[cricket::kCodecParamAssociatedCodecName] =
@@ -83,7 +86,10 @@ std::vector<SdpVideoFormat> MultiplexDecoderFactory::GetSupportedFormats()
     const {
   std::vector<SdpVideoFormat> formats = factory_->GetSupportedFormats();
   std::vector<SdpVideoFormat> augmented_formats = formats;
-  for (const auto& format : formats) {
+  // Iterate over the current elements and append at the end.
+  auto orig_formats_num = formats.size();
+  for (unsigned i = 0; i < orig_formats_num; ++i) {
+    const auto& format = formats[i];
     if (absl::EqualsIgnoreCase(format.name, kMultiplexAssociatedCodecName)) {
       SdpVideoFormat multiplex_format = format;
       multiplex_format.parameters[cricket::kCodecParamAssociatedCodecName] =
